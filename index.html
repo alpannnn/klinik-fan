@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <title>KLINIK FANNNN</title>
+    </head>
+
+    <body class="body bg-white dark:bg-[#0F172A]">
+        <div class="bg-black before:animate-pulse before:bg-gradient-to-b before:from-gray-900 overflow-hidden before:via-[#00FF00] before:to-gray-900 before:absolute ">
+            <div id="myDIV">
+                <div class="w-[100vw] h-[100vh] px-3 sm:px-5 flex items-center justify-center absolute">
+                    <div class="w-full sm:w-1/2 lg:2/3 px-6 bg-gray-500 bg-opacity-20 bg-clip-padding backdrop-filter backdrop-blur-sm text-white z-50 py-4  rounded-lg">
+                        <div class="w-full flex justify-center text-[#00FF00] text-xl mb:2 md:mb-5 font-bold">
+                            FORMULIR KLINIK
+                        </div>
+                        <div class="mb-6">
+                            <label for="nama" class="block mb-2 text-xs font-medium text-white">Masukkan Nama</label>
+                            <input type="text" id="nama" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 md:p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukkan Nama Anda!">
+                        </div>
+                        <div class="mb-6">
+                            <label for="usia" class="block mb-2 text-xs font-medium text-white">Masukkan Usia</label>
+                            <input type="number" id="usia" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 md:p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukkan Usia Anda!">
+                        </div>
+                        <div>
+                            <label for="usia" class="block mb-2 text-xs font-medium text-white">Pilih Poli</label>
+                            <select id="poli" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 md:p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></select>
+                        </div>
+                        <button class="mt-4 md:mt-10 w-full flex hover:bg-purple-300 justify-center text-sm md:text-xl bg-gradient-to-tr from-indigo-600 to-purple-600 py-2 rounded-md">
+                            Simpan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="myDIV" class="bg-black before:animate-pulse before:bg-gradient-to-b before:from-gray-900 overflow-hidden before:via-[#00FF00] before:to-gray-900 before:absolute ">
+            <table class=" flex-wrap container mx-auto py-10 rounded">
+                <thead class="text-center text-xs text-gray-700 uppercase bg-gradient-to-tr from-indigo-600 to-purple-600 text-white py-4">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            No
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Nama Pasien
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Usia Pasien
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Jenis Poli
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="result" class="px-6 py-3">
+                </tbody>
+            </table>
+        </div>
+    </body>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        const para = document.createElement("div");
+        para.className = 'flex flex-wrap gap-0.5 h-screen items-center justify-center  relative';
+        let el = '<div class = "  transition-colors duration-[1.5s] hover:duration-[0s] border-[#00FF00] h-[calc(5vw-2px)] w-[calc(5vw-2px)] md:h-[calc(4vw-2px)] md:w-[calc(4vw-2px)] lg:h-[calc(3vw-4px)] lg:w-[calc(3vw-4px)] bg-gray-900 hover:bg-[#00FF00]"></div>'
+        for (var k = 1; k <= 1000; k++) {
+            el += '<div class = " transition-colors duration-[1.5s] hover:duration-[0s] border-[#00FF00] h-[calc(5vw-2px)] w-[calc(5vw-2px)] md:h-[calc(4vw-2px)] md:w-[calc(4vw-2px)] lg:h-[calc(3vw-4px)] lg:w-[calc(3vw-4px)] bg-gray-900 hover:bg-[#00FF00]"></div>';
+        };
+
+        para.innerHTML = el;
+        document.getElementById("myDIV").appendChild(para);
+    </script>
+
+    <script>
+        const getData = async () => {
+            await axios.get(`https://database.politekniklp3i-tasikmalaya.ac.id/api/klinik`)
+                .then((response) => {
+                    let bucket = '';
+                    let klinik = response.data.kliniks;
+                    for (let i = 0; i < klinik.length; i++) {
+                        bucket += `
+            <tr class="px-10 py-3 text-center text-white">
+              <td>${i + 1}</td> 
+              <td>${klinik[i].nama}</td> 
+              <td>${klinik[i].usia}</td> 
+              <td>${klinik[i].poli}</td> 
+              <td class="py-4">
+                <button onclick="editData('${klinik[i].id}','${klinik[i].nama}','${klinik[i].usia}','${klinik[i].poli}')" class="bg-gradient-to-tr from-indigo-600 to-purple-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline border-solid border px-4 py-2 font-bold text-white">Edit</button>
+                <button onclick="deleteData(${klinik[i].id})" class="border-solid border px-7 py-2 bg-gradient-to-tr from-indigo-600 to-purple-600 font-bold text-white hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Delete</button>
+              </td>
+            </tr>
+          `
+                    }
+                    document.getElementById('result').innerHTML = bucket
+                });
+        }
+        getData();
+
+        const getPoli = async () => {
+            await axios.get(`https://database.politekniklp3i-tasikmalaya.ac.id/api/poli`)
+                .then((response) => {
+                    let bucket = '';
+                    let polis = response.data;
+                    polis.forEach(poli => {
+                        bucket += `
+                            <option value="${poli.name}">${poli.name}</option>
+                        `;
+                    });
+                    document.getElementById('poli').innerHTML = bucket;
+                })
+                .catch((error) => {
+                    console.log(error.message);
+                });
+        }
+        getPoli();
+
+        const deleteData = async (id) => {
+            let text = 'Yakin akan menghapus data?';
+            if (confirm(text) == true) {
+                await axios.delete(`https://database.politekniklp3i-tasikmalaya.ac.id/api/klinik/${id}`)
+                    .then((response) => {
+                        getData();
+                        console.log(response);
+                    })
+                    .catch((error) => {
+                        console.log(error.message);
+                    });
+            }
+        }
+        getData();
+
+        const saveData = async () => {
+            let namaForm = document.getElementById('nama').value;
+            let usiaForm = document.getElementById('usia').value;
+            let poliForm = document.getElementById('poli').value;
+            await axios.post(`https://database.politekniklp3i-tasikmalaya.ac.id/api/klinik`, {
+                nama: namaForm,
+                usia: usiaForm,
+                poli: poliForm
+            })
+                .then((response) => {
+                    getData();
+                    document.getElementById('nama').value = "";
+                    document.getElementById('usia').value = "";
+                    document.getElementById('poli').value = "";
+                    console.log('Berhasil Ditambahkan!')
+                })
+                .catch((error) => {
+                    console.log(error.message);
+                });
+        }
+        getData();
+    </script>
+
+</html>
